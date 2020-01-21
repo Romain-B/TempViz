@@ -1,5 +1,6 @@
 library(shiny)
 library(shinyTime)
+library(ggplot2)
 
 load_df <- function(filename){
   tryCatch(
