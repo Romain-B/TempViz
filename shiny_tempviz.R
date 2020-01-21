@@ -39,23 +39,9 @@ ui <- fluidPage(
       # Horizontal line ----
       tags$hr(),
       
+      # plot options appear only after a file has been loaded
       uiOutput("plot_options"),
-      # Input: select datetime from,
-      
-      # Input: Select separator ----
-      # radioButtons("sep", "Separator",
-      #              choices = c(Comma = ",",
-      #                          Semicolon = ";",
-      #                          Tab = "\t"),
-      #              selected = ","),
-      
-      # Input: Select quotes ----
-      # radioButtons("quote", "Quote",
-      #              choices = c(None = "",
-      #                          "Double Quote" = '"',
-      #                          "Single Quote" = "'"),
-      #              selected = '"'),
-      
+
       # Horizontal line ----
       tags$hr()
     ),
@@ -65,7 +51,6 @@ ui <- fluidPage(
     mainPanel(
       
       # Output: Data file ----
-      # tableOutput("contents"),
       plotOutput("temp_plot")
       
     )
@@ -75,26 +60,6 @@ ui <- fluidPage(
 
 # Define server logic to read selected file ----
 server <- function(input, output) {
-  
-  # output$contents <- renderTable({
-  #   
-  #   # input$file1 will be NULL initially. After the user selects
-  #   # and uploads a file, head of that data file by default,
-  #   # or all rows if selected, will be shown.
-  #   
-  #   req(input$file1)
-  #   
-  #   # when reading semicolon separated files,
-  #   # having a comma separator causes `read.csv` to error
-  #   load_df(input$file1$datapath)
-  #   
-  #   return(df)
-  #   
-  #   
-  # })
-  
-
-  
   output$plot_options <- renderUI({
     req(input$file1)
     
