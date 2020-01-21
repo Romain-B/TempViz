@@ -1,6 +1,6 @@
 library(shiny)
 library(shinyTime)
-
+library(shinyjqui)
 
 # Define UI for data upload app ----
 ui <- fluidPage(
@@ -36,7 +36,7 @@ ui <- fluidPage(
     mainPanel(
       
       # Output: Data file ----
-      plotOutput("temp_plot")
+      jqui_resizable(plotOutput("temp_plot"))
       
     )
     

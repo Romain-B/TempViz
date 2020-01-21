@@ -1,5 +1,6 @@
 library(shiny)
 library(shinyTime)
+library(shinyjqui)
 library(ggplot2)
 
 load_df <- function(filename){
@@ -23,7 +24,7 @@ server <- function(input, output) {
   output$plot_options <- renderUI({
     req(input$file1)
     
-    suppressWarnings(df <- load_df(input$file1$datapath))
+    df <- load_df(input$file1$datapath)
     
     
     init_vals <- list(datfrom = min(df$date),
@@ -69,19 +70,21 @@ server <- function(input, output) {
   
   plotInput <- reactive({
     req(input$file1)
-    suppressWarnings(df <- load_df(input$file1$datapath))
-    
+    df <- load_df(input$file1$datapath)
     
     tit <- gsub("\\d+-\\d+-\\d+_(\\w+_\\w+)_DataRecord.csv", "\\1", input$file1$name)
     if(nchar(tit)<1){
       tit <- input$plot_name
     }
-    datefrom <- paste(strftime(input$date_from, format = "%Y-%m-%d"), 
-                      strftime(input$time_from, format = "%H:%M:%S"))
-    dateto <- paste(strftime(input$date_to, format = "%Y-%m-%d"), 
-                    strftime(input$time_to, format = "%H:%M:%S"))
+    
+    datefrom <- paste(strftime(as.character(input$date_from), format = "%Y-%m-%d"), 
+                      strftime(as.character(input$time_from), format = "%H:%M:%S"))
+    dateto <- paste(strftime(as.character(input$date_to), format = "%Y-%m-%d"), 
+                    strftime(as.character(input$time_to), format = "%H:%M:%S"))
     
     df <- df[df$date > as.POSIXct(datefrom) & df$date < as.POSIXct(dateto), ]
+
+    
     df$status <- factor(df$status, levels = c(" set temp.", " wait"," ramp"), labels = c("set temp.", "wait", "ramp"))
     
     p <- ggplot(df, aes(x = date, y = temp., col = status)) + 
@@ -90,7 +93,6 @@ server <- function(input, output) {
       geom_hline(yintercept = input$set_temp + c(-1, 1)*input$conf_int, 
                  col = "royalblue", linetype = "dotted", size = 1) +
       coord_cartesian(ylim = input$ylims)
-    
   })
   
   output$temp_plot <- renderPlot({
