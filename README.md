@@ -2,10 +2,10 @@
 
 A quick Shiny app to visualize the temperature records from POL-EKO incubators.
 
-To launch the app, you must have `shiny` and `shinyTime` installed. You can install them like so :
+To launch and run the app, you must have `ggplot2` `shiny` and `shinyTime` installed. You can install them like so :
 
 ```r
-install.packages(c("shiny", "shinyTime"))
+install.packages(c("ggplot2", "shiny", "shinyTime"))
 ```
 
 Then, simply type the following in a R console :
